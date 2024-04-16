@@ -1,6 +1,7 @@
-import { Network } from './network';
 import { BalancerNetworkConfig } from '@/types';
+import { AddressZero } from '@ethersproject/constants';
 import addressesByNetwork from './addresses.json';
+import { Network } from './network';
 
 export const balancerVault = '0xBA12222222228d8Ba445958a75a0704d566BF2C8';
 
@@ -520,6 +521,94 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     ],
     sorTriPathMidPoolIds: [
       '0x2db50a0e0310723ef0c2a165cb9a9f80d772ba2f00020000000000000000000d', // weth/staBal
+    ],
+  },
+  [Network.ARTIO]: {
+    chainId: Network.ARTIO, //80085
+    addresses: {
+      contracts: {
+        multicall: AddressZero,
+        poolDataQueries: AddressZero,
+        gaugeClaimHelper: AddressZero,
+        gyroConfigProxy: AddressZero,
+        ...addressesByNetwork[Network.ARTIO].contracts,
+      },
+      tokens: {
+        bal: addressesByNetwork[Network.ARTIO].contracts.bal,
+        wrappedNativeAsset: addressesByNetwork[Network.ARTIO].contracts.weth,
+        lbpRaisingTokens: [
+          // '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', // DAI
+          // '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', // USDC
+          // '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
+        ],
+        ...addressesByNetwork[Network.ARTIO].tokens,
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/test-katla/0.0.1/gn',
+      // gaugesSubgraph:
+      //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
+      // blockNumberSubgraph:
+      //   'https://api.thegraph.com/subgraphs/name/ianlapham/polygon-blocks',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: '',
+        platformId: 'artio',
+      },
+    },
+    pools: {},
+    poolsToIgnore: [],
+    sorConnectingTokens: [
+      {
+        symbol: 'weth',
+        address: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+      },
+    ],
+  },
+  [Network.KATLA]: {
+    chainId: Network.KATLA, //167008
+    addresses: {
+      contracts: {
+        multicall: '0x63b555ee9CE284Bf986cE6aFAfF5A2A2d0d3ED52',
+        poolDataQueries: '0xc41F5451ECaf22800FD52d4601C0cE69aeE4D4b3',
+        gaugeClaimHelper: AddressZero,
+        gyroConfigProxy: AddressZero,
+        ...addressesByNetwork[Network.KATLA].contracts,
+      },
+      tokens: {
+        bal: addressesByNetwork[Network.KATLA].contracts.bal,
+        wrappedNativeAsset: addressesByNetwork[Network.KATLA].contracts.weth,
+        lbpRaisingTokens: [
+          // '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', // DAI
+          // '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', // USDC
+          // '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
+        ],
+        ...addressesByNetwork[Network.KATLA].tokens,
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/test-katla/0.0.1/gn',
+      // gaugesSubgraph:
+      //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
+      // blockNumberSubgraph:
+      //   'https://api.thegraph.com/subgraphs/name/ianlapham/polygon-blocks',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: '',
+        platformId: 'katla',
+      },
+    },
+    pools: {},
+    poolsToIgnore: [],
+    sorConnectingTokens: [
+      {
+        symbol: 'weth',
+        address: '0x0011E559da84dde3f841e22dc33F3adbF184D84A',
+      },
     ],
   },
 };

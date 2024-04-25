@@ -1,16 +1,16 @@
 {
-  "name": "@halodao/balancer-sdk",
+  "name": "@xclabs/balancer-sdk",
   "version": "1.1.6-beta.16.2",
   "description": "JavaScript SDK for interacting with the Balancer Protocol V2",
   "license": "GPL-3.0-only",
-  "homepage": "https://github.com/balancer-labs/balancer-sdk#readme",
+  "homepage": "https://github.com/xave-finance/balancer-sdk#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/balancer-labs/balancer-sdk",
+    "url": "https://github.com/xave-finance/balancer-sdk",
     "directory": "balancer-js"
   },
   "bugs": {
-    "url": "https://github.com/balancer-labs/balancer-sdk/issues"
+    "url": "https://github.com/xave-finance/balancer-sdk/issues"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -36,6 +36,7 @@
     "node:gnosis": "npx hardhat --tsconfig tsconfig.testing.json --config hardhat.config.gnosis.ts node --fork $(. ./.env && echo $RPC_URL_GNOSIS) --port 8100",
     "node:zkevm": "npx hardhat --tsconfig tsconfig.testing.json --config hardhat.config.zkevm.ts node --fork $(. ./.env && echo $ALCHEMY_URL_ZKEVM) --port 8101",
     "node:avalanche": "npx hardhat --tsconfig tsconfig.testing.json --config hardhat.config.avalanche.ts node --fork $(. ./.env && echo $RPC_URL_AVALANCHE) --port 8114",
+    "node:artio": "npx hardhat --tsconfig tsconfig.testing.json --config hardhat.config.artio.ts node --fork https://artio.rpc.berachain.com --port 8200",
     "typechain:generate": "npx typechain --target ethers-v5 --out-dir src/contracts './src/lib/abi/*.json'"
   },
   "devDependencies": {
@@ -82,8 +83,8 @@
     "rollup-plugin-terser": "^7.0.2",
     "tiny-invariant": "^1.1.0",
     "ts-mocha": "^9.0.2",
-    "ts-node": "^10.9.1",
-    "tsconfig-paths": "^3.14.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^3.15.0",
     "typechain": "^8.1.1",
     "typescript": "^4.0.2"
   },

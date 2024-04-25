@@ -527,8 +527,8 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     chainId: Network.ARTIO, //80085
     addresses: {
       contracts: {
-        multicall: AddressZero,
-        poolDataQueries: AddressZero,
+        multicall: '0xf49877e3E5e9297d46AFD73B19C75B4000C2dE90',
+        poolDataQueries: '0x0A395bC66d0A86b37C111652aE6228cd65F178C4',
         gaugeClaimHelper: AddressZero,
         gyroConfigProxy: AddressZero,
         ...addressesByNetwork[Network.ARTIO].contracts,
@@ -546,7 +546,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     urls: {
       subgraph:
-        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/test-katla/0.0.1/gn',
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/artio/0.0.1/gn',
       // gaugesSubgraph:
       //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
       // blockNumberSubgraph:
@@ -554,8 +554,8 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     thirdParty: {
       coingecko: {
-        nativeAssetId: '',
-        platformId: 'artio',
+        nativeAssetId: 'berachain-bera',
+        platformId: 'berachain-bera',
       },
     },
     pools: {},
@@ -563,7 +563,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     sorConnectingTokens: [
       {
         symbol: 'weth',
-        address: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+        address: '0x8239FBb3e3D0C2cDFd7888D8aF7701240Ac4DcA4',
       },
     ],
   },

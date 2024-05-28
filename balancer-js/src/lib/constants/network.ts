@@ -11,6 +11,8 @@ export enum Network {
   ARBITRUM = 42161,
   AVALANCHE = 43114,
   SEPOLIA = 11155111,
+  FRAXTAL = 252,
+  MODE = 34443,
   ARTIO = 80085, // Berachain Testnet
   KATLA = 167008, // Taiko Testnet
 }

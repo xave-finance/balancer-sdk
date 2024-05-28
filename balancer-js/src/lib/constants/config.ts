@@ -1,6 +1,4 @@
 import { BalancerNetworkConfig } from '@/types';
-import { AddressZero } from '@ethersproject/constants';
-import addressesByNetwork from './addresses.json';
 import { Network } from './network';
 
 export const balancerVault = '0xBA12222222228d8Ba445958a75a0704d566BF2C8';
@@ -713,26 +711,29 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     chainId: Network.ARTIO, //80085
     addresses: {
       contracts: {
-        multicall: '0xf49877e3E5e9297d46AFD73B19C75B4000C2dE90',
+        vault: '0xD6D473f54Cda4eb4396690e35d806131bdffE579',
+        balancerMinter: '',
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
         poolDataQueries: '0x0A395bC66d0A86b37C111652aE6228cd65F178C4',
-        gaugeClaimHelper: AddressZero,
-        gyroConfigProxy: AddressZero,
-        ...addressesByNetwork[Network.ARTIO].contracts,
+        balancerHelpers: '0x79958B378EeC1cfE942bffF99e4781D8032bc9f8',
+        balancerRelayer: '',
+        protocolFeePercentagesProvider:
+          '0xAEBfa76e468B2EbfAA71487B394BD065f9766D95',
+        weightedPoolFactory: '0x3D0f0422aa3afD4F00F71c7A606b5d7Bf231E571',
+        composableStablePoolFactory:
+          '0x63064565EA69E0CaBFBF225F14058f76B4cECfb8',
+        aaveLinearPoolFactory: '0x51440C7d318Dd61A5e76053084cC591Be8D6574b',
+        erc4626LinearPoolFactory: '',
+        yearnLinearPoolFactory: '',
       },
       tokens: {
-        bal: addressesByNetwork[Network.ARTIO].contracts.bal,
-        wrappedNativeAsset: addressesByNetwork[Network.ARTIO].contracts.weth,
-        lbpRaisingTokens: [
-          // '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', // DAI
-          // '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', // USDC
-          // '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
-        ],
-        ...addressesByNetwork[Network.ARTIO].tokens,
+        bal: '0x9AA488bc4c3c237104CD6661e076B22e0535eCFA',
+        wrappedNativeAsset: '0x5806E416dA447b267cEA759358cF22Cc41FAE80F', // WBERA
       },
     },
     urls: {
       subgraph:
-        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/artio/0.0.1/gn',
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/artio/0.0.5/gn',
       // gaugesSubgraph:
       //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
       // blockNumberSubgraph:
@@ -757,21 +758,24 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     chainId: Network.KATLA, //167008
     addresses: {
       contracts: {
-        multicall: '0x63b555ee9CE284Bf986cE6aFAfF5A2A2d0d3ED52',
-        poolDataQueries: '0xc41F5451ECaf22800FD52d4601C0cE69aeE4D4b3',
-        gaugeClaimHelper: AddressZero,
-        gyroConfigProxy: AddressZero,
-        ...addressesByNetwork[Network.KATLA].contracts,
+        vault: '0x7A73FA0Be231B44dbcA23E98F49CAe7F11f367Ba',
+        balancerMinter: '',
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        poolDataQueries: '0x764d0B2360b5e24f0f45BEEFb6d088346e67DaEc',
+        balancerHelpers: '0x018CEF7740535a156e0981059ACf19E74A886116',
+        balancerRelayer: '',
+        protocolFeePercentagesProvider:
+          '0x7965Ce7bE2B1608c217D001BdC27B799e405cf2F',
+        weightedPoolFactory: '0xFc7F949E6a4c91Ad61924e4b316f6B59960FD5df',
+        composableStablePoolFactory:
+          '0xAa878928dc095523300585155843Ae142FBf309d',
+        aaveLinearPoolFactory: '0x6bf91F40A553C58d8cD56871a6D3516F102785a8',
+        erc4626LinearPoolFactory: '',
+        yearnLinearPoolFactory: '',
       },
       tokens: {
-        bal: addressesByNetwork[Network.KATLA].contracts.bal,
-        wrappedNativeAsset: addressesByNetwork[Network.KATLA].contracts.weth,
-        lbpRaisingTokens: [
-          // '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', // DAI
-          // '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', // USDC
-          // '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
-        ],
-        ...addressesByNetwork[Network.KATLA].tokens,
+        bal: '0x58A501c3Cc724aB1Ac9184452C16E158d5122d48',
+        wrappedNativeAsset: '0x0011E559da84dde3f841e22dc33F3adbF184D84A', // WETH
       },
     },
     urls: {
@@ -784,8 +788,8 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     thirdParty: {
       coingecko: {
-        nativeAssetId: '',
-        platformId: 'katla',
+        nativeAssetId: 'taiko-katla',
+        platformId: 'taiko-katla',
       },
     },
     pools: {},

@@ -8,8 +8,9 @@ import { AssetHelpers, getEthValue, parsePoolInfo } from '@/lib/utils';
 import { subSlippage } from '@/lib/utils/slippageHelper';
 import { _upscaleArray } from '@/lib/utils/solidityMaths';
 import { StablePoolEncoder } from '@/pool-stable';
-import { Pool } from '@/types';
+import { BalancerNetworkConfig, Pool } from '@/types';
 
+import { AddressZero } from '@ethersproject/constants';
 import { StablePoolPriceImpact } from '../stable/priceImpact.concern';
 import {
   JoinConcern,
@@ -17,7 +18,6 @@ import {
   JoinPoolAttributes,
   JoinPoolParameters,
 } from '../types';
-import { AddressZero } from '@ethersproject/constants';
 
 type SortedValues = {
   poolTokens: string[];
@@ -37,6 +37,12 @@ type EncodeJoinPoolParams = {
   Pick<JoinPoolParameters, 'amountsIn' | 'tokensIn'>;
 
 export class StablePoolJoin implements JoinConcern {
+  private vaultAddress: string;
+
+  constructor(networkConfig: BalancerNetworkConfig) {
+    this.vaultAddress = balancerVault(networkConfig.chainId);
+  }
+
   buildJoin = ({
     joiner,
     pool,
@@ -197,7 +203,7 @@ export class StablePoolJoin implements JoinConcern {
       minBPTOut
     );
 
-    const to = balancerVault;
+    const to = this.vaultAddress;
     const functionName = 'joinPool';
     const attributes: JoinPool = {
       poolId,

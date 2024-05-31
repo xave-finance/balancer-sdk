@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 
+import { getOnChainBalances } from '@/modules/sor/pool-data/onChainData';
 import { BigNumber, BigNumberish, formatFixed } from '@ethersproject/bignumber';
 import { hexlify, zeroPad } from '@ethersproject/bytes';
 import { AddressZero, MaxUint256, WeiPerEther } from '@ethersproject/constants';
@@ -10,38 +11,37 @@ import {
 } from '@ethersproject/providers';
 import { keccak256 } from '@ethersproject/solidity';
 import { formatBytes32String } from '@ethersproject/strings';
-import { getOnChainBalances } from '@/modules/sor/pool-data/onChainData';
 
 import {
-  PoolWithMethods,
+  BALANCER_NETWORK_CONFIG,
   BalancerError,
   BalancerErrorCode,
   BalancerNetworkConfig,
-  Network,
-  PoolsSubgraphOnChainRepository,
-  Pools,
   BalancerSDK,
+  ERC20__factory,
   GraphQLArgs,
   GraphQLQuery,
-  PoolsSubgraphRepository,
+  Network,
   Pool,
-  BALANCER_NETWORK_CONFIG,
-  ERC20__factory,
+  Pools,
+  PoolsSubgraphOnChainRepository,
+  PoolsSubgraphRepository,
+  PoolWithMethods,
 } from '@/.';
 import { balancerVault } from '@/lib/constants/config';
 import { parseEther } from '@ethersproject/units';
 import { setBalance } from '@nomicfoundation/hardhat-network-helpers';
 
-import { defaultAbiCoder, Interface } from '@ethersproject/abi';
-
-const liquidityGaugeAbi = ['function deposit(uint value) payable'];
-const liquidityGauge = new Interface(liquidityGaugeAbi);
+import { Contracts } from '@/modules/contracts/contracts.module';
 import { Pools as PoolsProvider } from '@/modules/pools';
+import { SubgraphPool } from '@/modules/subgraph/subgraph';
+import { defaultAbiCoder, Interface } from '@ethersproject/abi';
 import mainnetPools from '../fixtures/pools-mainnet.json';
 import polygonPools from '../fixtures/pools-polygon.json';
 import { PoolsJsonRepository } from './pools-json-repository';
-import { Contracts } from '@/modules/contracts/contracts.module';
-import { SubgraphPool } from '@/modules/subgraph/subgraph';
+
+const liquidityGaugeAbi = ['function deposit(uint value) payable'];
+const liquidityGauge = new Interface(liquidityGaugeAbi);
 
 dotenv.config();
 
@@ -200,7 +200,7 @@ export const approveToken = async (
 ): Promise<boolean> => {
   const tokenContract = ERC20__factory.connect(token, signer);
   const txReceipt = await (
-    await tokenContract.approve(balancerVault, amount)
+    await tokenContract.approve(balancerVault(Network.MAINNET), amount)
   ).wait();
   return txReceipt.status === 1;
 };

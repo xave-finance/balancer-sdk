@@ -1,28 +1,28 @@
-import { BigNumber, parseFixed } from '@ethersproject/bignumber';
-import { AddressZero } from '@ethersproject/constants';
-import * as SOR from '@balancer-labs/sor';
-import {
-  ExitConcern,
-  ExitExactBPTInAttributes,
-  ExitExactTokensOutAttributes,
-  ExitExactBPTInParameters,
-  ExitExactTokensOutParameters,
-  ExitPool,
-  ExitPoolAttributes,
-} from '../types';
-import { AssetHelpers, isSameAddress, parsePoolInfo } from '@/lib/utils';
-import { Vault__factory } from '@/contracts/factories/Vault__factory';
-import { addSlippage, subSlippage } from '@/lib/utils/slippageHelper';
-import { balancerVault } from '@/lib/constants/config';
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
-import { WeightedPoolEncoder } from '@/pool-weighted';
+import { Vault__factory } from '@/contracts/factories/Vault__factory';
+import { balancerVault } from '@/lib/constants/config';
+import { AssetHelpers, isSameAddress, parsePoolInfo } from '@/lib/utils';
+import { addSlippage, subSlippage } from '@/lib/utils/slippageHelper';
 import {
   _downscaleDown,
   _downscaleDownArray,
   _upscaleArray,
 } from '@/lib/utils/solidityMaths';
-import { Pool } from '@/types';
 import { BasePoolEncoder } from '@/pool-base';
+import { WeightedPoolEncoder } from '@/pool-weighted';
+import { BalancerNetworkConfig, Pool } from '@/types';
+import * as SOR from '@balancer-labs/sor';
+import { BigNumber, parseFixed } from '@ethersproject/bignumber';
+import { AddressZero } from '@ethersproject/constants';
+import {
+  ExitConcern,
+  ExitExactBPTInAttributes,
+  ExitExactBPTInParameters,
+  ExitExactTokensOutAttributes,
+  ExitExactTokensOutParameters,
+  ExitPool,
+  ExitPoolAttributes,
+} from '../types';
 import { WeightedPoolPriceImpact } from '../weighted/priceImpact.concern';
 
 interface SortedValues {
@@ -71,6 +71,12 @@ type EncodeExitParams = Pick<
 };
 
 export class WeightedPoolExit implements ExitConcern {
+  private vaultAddress: string;
+
+  constructor(networkConfig: BalancerNetworkConfig) {
+    this.vaultAddress = balancerVault(networkConfig.chainId);
+  }
+
   buildExitExactBPTIn = ({
     exiter,
     pool,
@@ -489,7 +495,7 @@ export class WeightedPoolExit implements ExitConcern {
     userData,
     toInternalBalance,
   }: EncodeExitParams): ExitPoolAttributes => {
-    const to = balancerVault;
+    const to = this.vaultAddress;
     const functionName = 'exitPool';
     const attributes: ExitPool = {
       poolId,

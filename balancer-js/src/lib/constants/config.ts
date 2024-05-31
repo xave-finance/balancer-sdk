@@ -3,7 +3,12 @@ import { AddressZero } from '@ethersproject/constants';
 import addressesByNetwork from './addresses.json';
 import { Network } from './network';
 
-export const balancerVault = '0xBA12222222228d8Ba445958a75a0704d566BF2C8';
+export const balancerVault = (network: Network): string => {
+  return (
+    addressesByNetwork[network as unknown as keyof typeof addressesByNetwork]
+      ?.contracts.vault ?? '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
+  );
+};
 
 // Info fetched using npm package slot20
 export const BPT_SLOT = 0;

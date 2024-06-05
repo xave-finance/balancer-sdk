@@ -1,22 +1,49 @@
 // yarn test:only src/modules/graph/graph.module.spec.ts
-import { expect } from 'chai';
-import { parseFixed } from '@ethersproject/bignumber';
 import { factories } from '@/test/factories';
-import { PoolsStaticRepository } from '../data';
-import { SubgraphToken } from '@balancer-labs/sor';
-import { PoolGraph, Node } from './graph';
 import {
   BoostedInfo,
-  BoostedMetaInfo,
   BoostedMetaBigInfo,
-  BoostedParams,
-  LinearParams,
   BoostedMetaBigParams,
-  Pool,
+  BoostedMetaInfo,
+  BoostedParams,
   LinearInfo,
+  LinearParams,
+  Pool,
 } from '@/test/factories/pools';
-import { Pool as SdkPool } from '@/types';
 import { formatAddress } from '@/test/lib/utils';
+import { BalancerNetworkConfig, Network, Pool as SdkPool } from '@/types';
+import { SubgraphToken } from '@balancer-labs/sor';
+import { parseFixed } from '@ethersproject/bignumber';
+import { expect } from 'chai';
+import { PoolsStaticRepository } from '../data';
+import { Node, PoolGraph } from './graph';
+
+const mockNetworkConfig: BalancerNetworkConfig = {
+  chainId: Network.MAINNET,
+  addresses: {
+    contracts: {
+      vault: '',
+      multicall: '',
+      poolDataQueries: '',
+      balancerRelayer: '',
+      balancerHelpers: '',
+    },
+    tokens: {
+      wrappedNativeAsset: '',
+      bal: '',
+    },
+  },
+  urls: {
+    subgraph: '',
+  },
+  thirdParty: {
+    coingecko: {
+      nativeAssetId: '',
+      platformId: '',
+    },
+  },
+  pools: {},
+};
 
 function checkNode(
   node: Node,
@@ -251,7 +278,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         linearInfo.linearPools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, mockNetworkConfig);
     });
     context('using non-wrapped tokens', () => {
       before(async () => {
@@ -327,7 +354,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         pools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, mockNetworkConfig);
     });
 
     it('should throw when pool doesnt exist', async () => {
@@ -487,7 +514,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         pools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, mockNetworkConfig);
     });
 
     context('using wrapped tokens', () => {
@@ -647,7 +674,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         pools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, mockNetworkConfig);
     });
 
     context('using wrapped tokens', () => {

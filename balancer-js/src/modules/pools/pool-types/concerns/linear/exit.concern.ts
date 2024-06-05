@@ -6,20 +6,21 @@ import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 import { Vault__factory } from '@/contracts';
 import { balancerVault } from '@/lib/constants/config';
 import { insert, parsePoolInfo, removeItem } from '@/lib/utils';
-import { _downscaleDownArray } from '@/lib/utils/solidityMaths';
 import { subSlippage } from '@/lib/utils/slippageHelper';
+import { _downscaleDownArray } from '@/lib/utils/solidityMaths';
 import { BasePoolEncoder } from '@/pool-base';
 
+import { BalancerNetworkConfig } from '@/types';
+import { LinearPriceImpact } from '../linear/priceImpact.concern';
 import {
   ExitConcern,
-  ExitExactBPTInParameters,
-  ExitExactTokensOutParameters,
   ExitExactBPTInAttributes,
+  ExitExactBPTInParameters,
   ExitExactTokensOutAttributes,
-  ExitPoolAttributes,
+  ExitExactTokensOutParameters,
   ExitPool,
+  ExitPoolAttributes,
 } from '../types';
-import { LinearPriceImpact } from '../linear/priceImpact.concern';
 
 interface SortedValues {
   bptIndex: number;
@@ -44,6 +45,12 @@ type EncodeExitParams = Pick<
 };
 
 export class LinearPoolExit implements ExitConcern {
+  private vaultAddress: string;
+
+  constructor(networkConfig: BalancerNetworkConfig) {
+    this.vaultAddress = balancerVault(networkConfig.chainId);
+  }
+
   buildExitExactBPTIn = ({
     exiter,
     pool,
@@ -205,7 +212,7 @@ export class LinearPoolExit implements ExitConcern {
       toInternalBalance,
     } = params;
 
-    const to = balancerVault;
+    const to = this.vaultAddress;
     const functionName = 'exitPool';
     const attributes: ExitPool = {
       poolId: poolId,

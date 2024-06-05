@@ -1,4 +1,8 @@
-import { PoolType } from './pool-type.interface';
+import { FXExitConcern } from '@/modules/pools/pool-types/concerns/fx/exit.concern';
+import { FXJoinConcern } from '@/modules/pools/pool-types/concerns/fx/join.concern';
+import { FXLiquidityConcern } from '@/modules/pools/pool-types/concerns/fx/liquidity.concern';
+import { FXPriceImpactConcern } from '@/modules/pools/pool-types/concerns/fx/priceImpact.concern';
+import { FXSpotPriceConcern } from '@/modules/pools/pool-types/concerns/fx/spotPrice.concern';
 import {
   ExitConcern,
   JoinConcern,
@@ -6,11 +10,7 @@ import {
   PriceImpactConcern,
   SpotPriceConcern,
 } from '@/modules/pools/pool-types/concerns/types';
-import { FXExitConcern } from '@/modules/pools/pool-types/concerns/fx/exit.concern';
-import { FXLiquidityConcern } from '@/modules/pools/pool-types/concerns/fx/liquidity.concern';
-import { FXSpotPriceConcern } from '@/modules/pools/pool-types/concerns/fx/spotPrice.concern';
-import { FXPriceImpactConcern } from '@/modules/pools/pool-types/concerns/fx/priceImpact.concern';
-import { FXJoinConcern } from '@/modules/pools/pool-types/concerns/fx/join.concern';
+import { PoolType } from './pool-type.interface';
 
 export class FX implements PoolType {
   constructor(

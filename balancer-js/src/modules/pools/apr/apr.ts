@@ -1,26 +1,27 @@
-import { formatUnits } from '@ethersproject/units';
+import { BALANCER_NETWORK_CONFIG } from '@/lib/constants/config';
+import { POOLS_TO_IGNORE } from '@/lib/constants/poolsToIgnore';
+import { Logger } from '@/lib/utils/logger';
+import { BaseFeeDistributor } from '@/modules/data';
 import * as emissions from '@/modules/data/bal/emissions';
+import { GyroConfigRepository } from '@/modules/data/gyro-config/repository';
+import { Liquidity } from '@/modules/liquidity/liquidity.module';
 import type {
+  BalancerNetworkConfig,
   Findable,
+  LiquidityGauge,
+  Network,
   Pool,
   PoolAttribute,
+  PoolToken,
   Price,
   Token,
   TokenAttribute,
-  LiquidityGauge,
-  Network,
-  PoolToken,
 } from '@/types';
-import { BaseFeeDistributor } from '@/modules/data';
-import { ProtocolRevenue } from './protocol-revenue';
-import { Liquidity } from '@/modules/liquidity/liquidity.module';
-import { identity, zipObject, pickBy } from 'lodash';
-import { PoolFees } from '../fees/fees';
-import { BALANCER_NETWORK_CONFIG } from '@/lib/constants/config';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Logger } from '@/lib/utils/logger';
-import { GyroConfigRepository } from '@/modules/data/gyro-config/repository';
-import { POOLS_TO_IGNORE } from '@/lib/constants/poolsToIgnore';
+import { formatUnits } from '@ethersproject/units';
+import { identity, pickBy, zipObject } from 'lodash';
+import { PoolFees } from '../fees/fees';
+import { ProtocolRevenue } from './protocol-revenue';
 
 export interface AprBreakdown {
   swapFees: number;
@@ -59,6 +60,7 @@ export class PoolApr {
     private tokenMeta: Findable<Token, TokenAttribute>,
     private tokenYields: Findable<number>,
     private feeCollector: Findable<number>,
+    private networkConfig: BalancerNetworkConfig,
     private yesterdaysPools?: Findable<Pool, PoolAttribute>,
     private liquidityGauges?: Findable<LiquidityGauge>,
     private feeDistributor?: BaseFeeDistributor,
@@ -490,7 +492,11 @@ export class PoolApr {
    */
   private async totalLiquidity(pool: Pool): Promise<string> {
     try {
-      const liquidityService = new Liquidity(this.pools, this.tokenPrices);
+      const liquidityService = new Liquidity(
+        this.pools,
+        this.tokenPrices,
+        this.networkConfig
+      );
       const liquidity = await liquidityService.getLiquidity(pool);
       return liquidity;
     } catch (err) {

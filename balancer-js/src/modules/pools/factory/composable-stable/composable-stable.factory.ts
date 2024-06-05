@@ -1,5 +1,18 @@
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
+import {
+  ComposableStablePoolFactory__factory,
+  ComposableStablePool__factory,
+} from '@/contracts';
+import { ComposableStablePoolInterface } from '@/contracts/ComposableStablePool';
 import { Vault__factory } from '@/contracts/factories/Vault__factory';
+import { balancerVault, networkAddresses } from '@/lib/constants/config';
+import {
+  AssetHelpers,
+  findEventInReceiptLogs,
+  getRandomBytes32,
+} from '@/lib/utils';
+import { ContractInstances } from '@/modules/contracts/contracts.module';
+import { PoolFactory } from '@/modules/pools/factory/pool-factory';
 import {
   ComposableStableCreatePoolParameters,
   InitJoinPoolAttributes,
@@ -7,26 +20,17 @@ import {
   JoinPoolDecodedAttributes,
   JoinPoolRequestDecodedAttributes,
 } from '@/modules/pools/factory/types';
-import { balancerVault, networkAddresses } from '@/lib/constants/config';
-import { AssetHelpers, getRandomBytes32 } from '@/lib/utils';
-import { PoolFactory } from '@/modules/pools/factory/pool-factory';
 import { ComposableStablePoolEncoder } from '@/pool-composable-stable';
 import { BalancerNetworkConfig } from '@/types';
-import {
-  ComposableStablePool__factory,
-  ComposableStablePoolFactory__factory,
-} from '@/contracts';
-import { JsonRpcProvider, TransactionReceipt } from '@ethersproject/providers';
 import { LogDescription } from '@ethersproject/abi';
-import { findEventInReceiptLogs } from '@/lib/utils';
-import { Contract } from '@ethersproject/contracts';
-import { ContractInstances } from '@/modules/contracts/contracts.module';
 import { BytesLike } from '@ethersproject/bytes';
-import { ComposableStablePoolInterface } from '@/contracts/ComposableStablePool';
+import { Contract } from '@ethersproject/contracts';
+import { JsonRpcProvider, TransactionReceipt } from '@ethersproject/providers';
 
 export class ComposableStableFactory implements PoolFactory {
   private wrappedNativeAsset: string;
   private contracts: ContractInstances;
+  private vaultAddress: string;
 
   constructor(
     networkConfig: BalancerNetworkConfig,
@@ -35,6 +39,7 @@ export class ComposableStableFactory implements PoolFactory {
     const { tokens } = networkAddresses(networkConfig.chainId);
     this.wrappedNativeAsset = tokens.wrappedNativeAsset;
     this.contracts = contracts;
+    this.vaultAddress = balancerVault(networkConfig.chainId);
   }
 
   /**
@@ -226,7 +231,7 @@ export class ComposableStableFactory implements PoolFactory {
     const { functionName, data } = this.encodeInitJoinFunctionData(params);
 
     return {
-      to: balancerVault,
+      to: this.vaultAddress,
       functionName,
       data,
       attributes,

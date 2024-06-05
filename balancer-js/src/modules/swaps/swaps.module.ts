@@ -1,35 +1,35 @@
-import { SOR, SubgraphPoolBase, SwapInfo, SwapTypes } from '@balancer-labs/sor';
-import { Vault__factory } from '@/contracts/factories/Vault__factory';
 import { Vault } from '@/contracts/Vault';
-import {
-  BatchSwap,
-  QuerySimpleFlashSwapParameters,
-  QuerySimpleFlashSwapResponse,
-  SimpleFlashSwapParameters,
-  FindRouteParameters,
-  BuildTransactionParameters,
-  SwapAttributes,
-  SwapType,
-  TokenAmounts,
-  SwapsOptions,
-} from './types';
-import { queryBatchSwap, getSorSwapInfo } from './queryBatchSwap';
+import { Vault__factory } from '@/contracts/factories/Vault__factory';
 import { balancerVault } from '@/lib/constants/config';
-import { getLimitsForSlippage } from './helpers';
-import { BalancerSdkConfig } from '@/types';
-import { SwapInput } from './types';
+import { GraphQLArgs } from '@/lib/graphql';
 import { Sor } from '@/modules/sor/sor.module';
+import {
+  BatchSwapBuilder,
+  SingleSwapBuilder,
+} from '@/modules/swaps/swap_builder';
+import { BalancerSdkConfig } from '@/types';
+import { SOR, SubgraphPoolBase, SwapInfo, SwapTypes } from '@balancer-labs/sor';
+import { BigNumber } from '@ethersproject/bignumber';
+import { AddressZero } from '@ethersproject/constants';
 import {
   convertSimpleFlashSwapToBatchSwapParameters,
   querySimpleFlashSwap,
 } from './flashSwap';
+import { getLimitsForSlippage } from './helpers';
+import { getSorSwapInfo, queryBatchSwap } from './queryBatchSwap';
 import {
-  SingleSwapBuilder,
-  BatchSwapBuilder,
-} from '@/modules/swaps/swap_builder';
-import { BigNumber } from '@ethersproject/bignumber';
-import { AddressZero } from '@ethersproject/constants';
-import { GraphQLArgs } from '@/lib/graphql';
+  BatchSwap,
+  BuildTransactionParameters,
+  FindRouteParameters,
+  QuerySimpleFlashSwapParameters,
+  QuerySimpleFlashSwapResponse,
+  SimpleFlashSwapParameters,
+  SwapAttributes,
+  SwapInput,
+  SwapType,
+  SwapsOptions,
+  TokenAmounts,
+} from './types';
 
 const buildRouteDefaultOptions = {
   maxPools: 4,
@@ -57,7 +57,7 @@ export class Swaps {
     }
 
     this.vaultContract = Vault__factory.connect(
-      balancerVault,
+      balancerVault(this.chainId),
       this.sor.provider
     );
   }

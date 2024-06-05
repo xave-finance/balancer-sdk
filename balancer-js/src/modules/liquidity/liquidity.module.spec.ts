@@ -1,14 +1,13 @@
 // yarn test:only ./src/modules/liquidity/liquidity.module.spec.ts
 
-import { PoolsStaticRepository } from '../data';
-import { Pool } from '@/types';
-import { expect } from 'chai';
-import { Liquidity } from './liquidity.module';
+import { tokensToTokenPrices } from '@/lib/utils';
 import pools from '@/test/fixtures/liquidityPools.json';
 import tokens from '@/test/fixtures/liquidityTokens.json';
-import { StaticTokenPriceProvider } from '../data';
+import { Pool } from '@/types';
 import { formatFixed, parseFixed } from '@ethersproject/bignumber';
-import { tokensToTokenPrices } from '@/lib/utils';
+import { expect } from 'chai';
+import { PoolsStaticRepository, StaticTokenPriceProvider } from '../data';
+import { Liquidity } from './liquidity.module';
 
 const tokenPrices = tokensToTokenPrices(tokens);
 
@@ -17,8 +16,39 @@ const poolProvider = new PoolsStaticRepository(pools as Pool[]);
 
 let liquidityProvider: Liquidity;
 
+const mockNetworkConfig: BalancerNetworkConfig = {
+  chainId: Network.MAINNET,
+  addresses: {
+    contracts: {
+      vault: '',
+      multicall: '',
+      poolDataQueries: '',
+      balancerRelayer: '',
+      balancerHelpers: '',
+    },
+    tokens: {
+      wrappedNativeAsset: '',
+      bal: '',
+    },
+  },
+  urls: {
+    subgraph: '',
+  },
+  thirdParty: {
+    coingecko: {
+      nativeAssetId: '',
+      platformId: '',
+    },
+  },
+  pools: {},
+};
+
 beforeEach(() => {
-  liquidityProvider = new Liquidity(poolProvider, tokenPriceProvider);
+  liquidityProvider = new Liquidity(
+    poolProvider,
+    tokenPriceProvider,
+    mockNetworkConfig
+  );
 });
 
 function findPool(address: string): Pool {

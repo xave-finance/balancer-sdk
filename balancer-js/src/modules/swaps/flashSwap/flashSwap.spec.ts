@@ -1,14 +1,15 @@
-import { Contract } from '@ethersproject/contracts';
-import { expect } from 'chai';
 import { Vault } from '@/contracts/Vault';
 import { Vault__factory } from '@/contracts/factories/Vault__factory';
+import { Network } from '@/types';
+import { Contract } from '@ethersproject/contracts';
+import { expect } from 'chai';
 import {
   convertSimpleFlashSwapToBatchSwapParameters,
   querySimpleFlashSwap,
 } from '.';
-import { SwapType } from '../types';
 import { balancerVault } from '../../../lib/constants/config';
 import MockProvider from '../../../test/lib/MockProvider';
+import { SwapType } from '../types';
 
 class MockVaultContract extends Contract {
   // Stubbed methods
@@ -77,7 +78,7 @@ describe('convertSimpleFlashSwapToBatchSwapParameters', () => {
 
 describe('querySimpleFlashSwap', () => {
   const vaultContract = new MockVaultContract(
-    balancerVault,
+    balancerVault(Network.MAINNET),
     Vault__factory.abi,
     new MockProvider()
   ) as unknown as Vault;

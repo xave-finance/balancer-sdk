@@ -6,24 +6,24 @@ import { Vault__factory } from '@/contracts/factories/Vault__factory';
 import { balancerVault } from '@/lib/constants/config';
 import {
   AssetHelpers,
-  parsePoolInfo,
-  insert,
-  reorderArrays,
   getEthValue,
+  insert,
+  parsePoolInfo,
+  reorderArrays,
 } from '@/lib/utils';
 import { subSlippage } from '@/lib/utils/slippageHelper';
 import { _upscaleArray } from '@/lib/utils/solidityMaths';
 import { ComposableStablePoolEncoder } from '@/pool-composable-stable';
-import { Pool } from '@/types';
+import { BalancerNetworkConfig, Pool } from '@/types';
 
+import { AddressZero } from '@ethersproject/constants';
 import { StablePoolPriceImpact } from '../stable/priceImpact.concern';
 import {
-  JoinPoolParameters,
   JoinConcern,
-  JoinPoolAttributes,
   JoinPool,
+  JoinPoolAttributes,
+  JoinPoolParameters,
 } from '../types';
-import { AddressZero } from '@ethersproject/constants';
 
 interface SortedValues {
   sortedAmountsIn: string[];
@@ -42,6 +42,12 @@ type SortedInputs = SortedValues &
   };
 
 export class ComposableStablePoolJoin implements JoinConcern {
+  private vaultAddress: string;
+
+  constructor(networkConfig: BalancerNetworkConfig) {
+    this.vaultAddress = balancerVault(networkConfig.chainId);
+  }
+
   buildJoin = ({
     joiner,
     pool,
@@ -79,7 +85,7 @@ export class ComposableStablePoolJoin implements JoinConcern {
 
     return {
       ...encodedData,
-      to: balancerVault,
+      to: this.vaultAddress,
       value,
       priceImpact,
     };

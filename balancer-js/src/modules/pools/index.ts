@@ -2,37 +2,38 @@ import { BigNumberish } from '@ethersproject/bignumber';
 import { JsonRpcSigner } from '@ethersproject/providers';
 
 import { BalancerError } from '@/balancerErrors';
+import { Logger } from '@/lib/utils/logger';
 import { Contracts } from '@/modules/contracts/contracts.module';
 import { ImpermanentLossService } from '@/modules/pools/impermanentLoss/impermanentLossService';
 import type {
-  BalancerNetworkConfig,
-  BalancerDataRepositories,
-  Findable,
-  Searchable,
-  Pool,
-  PoolWithMethods,
   AprBreakdown,
+  BalancerDataRepositories,
+  BalancerNetworkConfig,
+  Findable,
+  Pool,
   PoolAttribute,
+  PoolWithMethods,
+  Searchable,
 } from '@/types';
-import { Logger } from '@/lib/utils/logger';
 
+import { balancerVault } from '@/lib/constants/config';
+import { Exit, ExitInfo, GeneralisedExitOutput } from '../exits/exits.module';
+import { PoolGraph } from '../graph/graph';
+import { Join } from '../joins/joins.module';
+import { Liquidity } from '../liquidity/liquidity.module';
+import { Simulation, SimulationType } from '../simulation/simulation.module';
+import { PoolApr } from './apr/apr';
+import { EmissionsService } from './emissions';
+import { PoolFees } from './fees/fees';
+import { PoolFactory__factory } from './pool-factory__factory';
+import { PoolTypeConcerns } from './pool-type-concerns';
 import {
   ExitExactBPTInAttributes,
   JoinPoolAttributes,
 } from './pool-types/concerns/types';
-import { PoolTypeConcerns } from './pool-type-concerns';
-import { PoolApr } from './apr/apr';
-import { Liquidity } from '../liquidity/liquidity.module';
-import { Join } from '../joins/joins.module';
-import { Exit, GeneralisedExitOutput, ExitInfo } from '../exits/exits.module';
-import { PoolVolume } from './volume/volume';
-import { PoolFees } from './fees/fees';
-import { Simulation, SimulationType } from '../simulation/simulation.module';
-import { PoolGraph } from '../graph/graph';
-import { PoolFactory__factory } from './pool-factory__factory';
-import * as Queries from './queries';
-import { EmissionsService } from './emissions';
 import { proportionalAmounts } from './proportional-amounts';
+import * as Queries from './queries';
+import { PoolVolume } from './volume/volume';
 
 const notImplemented = (poolType: string, name: string) => () => {
   throw `${name} for poolType ${poolType} not implemented`;
@@ -66,6 +67,7 @@ export class Pools implements Findable<PoolWithMethods> {
       this.repositories.tokenMeta,
       this.repositories.tokenYields,
       this.repositories.feeCollector,
+      this.networkConfig,
       this.repositories.yesterdaysPools,
       this.repositories.liquidityGauges,
       this.repositories.feeDistributor,
@@ -73,13 +75,17 @@ export class Pools implements Findable<PoolWithMethods> {
     );
     this.liquidityService = new Liquidity(
       repositories.pools,
-      repositories.tokenPrices
+      repositories.tokenPrices,
+      this.networkConfig
     );
     this.simulationService = new Simulation(
       networkConfig,
       this.repositories.poolsForSimulations
     );
-    this.graphService = new PoolGraph(this.repositories.poolsOnChain);
+    this.graphService = new PoolGraph(
+      this.repositories.poolsOnChain,
+      this.networkConfig
+    );
     this.joinService = new Join(
       this.graphService,
       networkConfig,
@@ -116,7 +122,7 @@ export class Pools implements Findable<PoolWithMethods> {
     let queries: Queries.ParamsBuilder;
     let methods;
     try {
-      concerns = PoolTypeConcerns.from(pool.poolType);
+      concerns = PoolTypeConcerns.from(pool.poolType, networkConfig);
       methods = {
         buildJoin: (
           joiner: string,
@@ -153,7 +159,7 @@ export class Pools implements Findable<PoolWithMethods> {
           toInternalBalance = false
         ) => {
           if (concerns.exit.buildExitExactBPTIn) {
-            return concerns.exit.buildExitExactBPTIn({
+            const request = concerns.exit.buildExitExactBPTIn({
               exiter,
               pool,
               bptIn,
@@ -163,6 +169,8 @@ export class Pools implements Findable<PoolWithMethods> {
               singleTokenOut,
               toInternalBalance,
             });
+            request.to = balancerVault(networkConfig.chainId);
+            return request;
           } else {
             throw 'ExitExactBPTIn not supported';
           }
@@ -350,7 +358,7 @@ export class Pools implements Findable<PoolWithMethods> {
     userAddress: string;
     slippage: string;
   }): JoinPoolAttributes {
-    const concerns = PoolTypeConcerns.from(pool.poolType);
+    const concerns = PoolTypeConcerns.from(pool.poolType, this.networkConfig);
 
     if (!concerns)
       throw `buildJoin for poolType ${pool.poolType} not implemented`;
@@ -381,7 +389,7 @@ export class Pools implements Findable<PoolWithMethods> {
     shouldUnwrapNativeAsset?: boolean;
     singleTokenOut?: string;
   }): ExitExactBPTInAttributes {
-    const concerns = PoolTypeConcerns.from(pool.poolType);
+    const concerns = PoolTypeConcerns.from(pool.poolType, this.networkConfig);
     if (!concerns || !concerns.exit.buildExitExactBPTIn)
       throw `buildExit for poolType ${pool.poolType} not implemented`;
 
@@ -411,7 +419,7 @@ export class Pools implements Findable<PoolWithMethods> {
     slippage: string;
     toInternalBalance?: boolean;
   }): ExitExactBPTInAttributes {
-    const concerns = PoolTypeConcerns.from(pool.poolType);
+    const concerns = PoolTypeConcerns.from(pool.poolType, this.networkConfig);
     if (!concerns || !concerns.exit.buildRecoveryExit)
       throw `buildRecoveryExit for poolType ${pool.poolType} not implemented`;
 
@@ -518,7 +526,7 @@ export class Pools implements Findable<PoolWithMethods> {
     bptAmount: string;
     isJoin: boolean;
   }): string {
-    const concerns = PoolTypeConcerns.from(pool.poolType);
+    const concerns = PoolTypeConcerns.from(pool.poolType, this.networkConfig);
     return concerns.priceImpactCalculator.calcPriceImpact(
       pool,
       tokenAmounts.map(BigInt),

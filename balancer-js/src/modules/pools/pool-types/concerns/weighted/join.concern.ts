@@ -9,7 +9,7 @@ import { AssetHelpers, getEthValue, parsePoolInfo } from '@/lib/utils';
 import { subSlippage } from '@/lib/utils/slippageHelper';
 import { _upscaleArray } from '@/lib/utils/solidityMaths';
 import { WeightedPoolEncoder } from '@/pool-weighted';
-import { Address, Pool } from '@/types';
+import { Address, BalancerNetworkConfig, Pool } from '@/types';
 import {
   JoinConcern,
   JoinPool,
@@ -29,6 +29,12 @@ type SortedValues = {
 };
 
 export class WeightedPoolJoin implements JoinConcern {
+  private vaultAddress: string;
+
+  constructor(networkConfig: BalancerNetworkConfig) {
+    this.vaultAddress = balancerVault(networkConfig.chainId);
+  }
+
   buildJoin = ({
     joiner,
     pool,
@@ -187,7 +193,7 @@ export class WeightedPoolJoin implements JoinConcern {
       sortedAmountsIn,
       minBPTOut
     );
-    const to = balancerVault;
+    const to = this.vaultAddress;
     const functionName = 'joinPool';
     const attributes: JoinPool = {
       poolId,

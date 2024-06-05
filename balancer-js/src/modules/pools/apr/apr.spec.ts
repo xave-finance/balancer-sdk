@@ -1,10 +1,42 @@
+import * as emissions from '@/modules/data/bal/emissions';
+import { factories } from '@/test/factories';
+import {
+  BalancerNetworkConfig,
+  Network,
+  type LiquidityGauge,
+  type Pool,
+} from '@/types';
 import { BigNumber } from '@ethersproject/bignumber';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import { PoolApr } from './apr';
-import { factories } from '@/test/factories';
-import * as emissions from '@/modules/data/bal/emissions';
-import type { LiquidityGauge, Pool } from '@/types';
+
+const mockNetworkConfig: BalancerNetworkConfig = {
+  chainId: Network.MAINNET,
+  addresses: {
+    contracts: {
+      vault: '',
+      multicall: '',
+      poolDataQueries: '',
+      balancerRelayer: '',
+      balancerHelpers: '',
+    },
+    tokens: {
+      wrappedNativeAsset: '',
+      bal: '',
+    },
+  },
+  urls: {
+    subgraph: '',
+  },
+  thirdParty: {
+    coingecko: {
+      nativeAssetId: '',
+      platformId: '',
+    },
+  },
+  pools: {},
+};
 
 const wETH = factories.poolTokenFactory
   .transient({ symbol: 'wETH' })
@@ -78,6 +110,7 @@ describe('pool apr', () => {
         repositories.tokenMeta,
         repositories.tokenYields,
         repositories.feeCollector,
+        mockNetworkConfig,
         repositories.yesterdaysPools,
         repositories.liquidityGauges,
         repositories.feeDistributor
@@ -96,6 +129,7 @@ describe('pool apr', () => {
           repositories.tokenMeta,
           repositories.tokenYields,
           repositories.feeCollector,
+          mockNetworkConfig,
           repositories.yesterdaysPools,
           repositories.liquidityGauges,
           repositories.feeDistributor
@@ -133,6 +167,7 @@ describe('pool apr', () => {
           repositories.tokenMeta,
           factories.data.stubbed<number>(undefined),
           factories.data.stubbed<number>(0),
+          mockNetworkConfig,
           repositories.yesterdaysPools,
           repositories.liquidityGauges,
           repositories.feeDistributor
@@ -160,6 +195,7 @@ describe('pool apr', () => {
         repositories.tokenMeta,
         factories.data.stubbed<number>(undefined),
         repositories.feeCollector,
+        mockNetworkConfig,
         repositories.yesterdaysPools,
         factories.data.stubbed<LiquidityGauge>(gauge),
         repositories.feeDistributor
@@ -186,6 +222,7 @@ describe('pool apr', () => {
         repositories.tokenMeta,
         factories.data.stubbed<number>(undefined),
         repositories.feeCollector,
+        mockNetworkConfig,
         repositories.yesterdaysPools,
         factories.data.stubbed<LiquidityGauge>(gauge),
         repositories.feeDistributor

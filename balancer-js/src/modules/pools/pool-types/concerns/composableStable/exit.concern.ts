@@ -1,9 +1,9 @@
+import { Vault__factory } from '@/contracts/factories/Vault__factory';
 import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero } from '@ethersproject/constants';
-import { Vault__factory } from '@/contracts/factories/Vault__factory';
 
-import * as SOR from '@balancer-labs/sor';
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
+import { balancerVault } from '@/lib/constants/config';
 import {
   AssetHelpers,
   insert,
@@ -16,9 +16,11 @@ import {
   _downscaleDownArray,
   _upscaleArray,
 } from '@/lib/utils/solidityMaths';
-import { balancerVault } from '@/lib/constants/config';
+import { BasePoolEncoder } from '@/pool-base';
 import { ComposableStablePoolEncoder } from '@/pool-composable-stable';
-import { Pool } from '@/types';
+import { BalancerNetworkConfig, Pool } from '@/types';
+import * as SOR from '@balancer-labs/sor';
+import { StablePoolPriceImpact } from '../stable/priceImpact.concern';
 import {
   ExitConcern,
   ExitExactBPTInAttributes,
@@ -28,8 +30,6 @@ import {
   ExitPool,
   ExitPoolAttributes,
 } from '../types';
-import { BasePoolEncoder } from '@/pool-base';
-import { StablePoolPriceImpact } from '../stable/priceImpact.concern';
 
 interface SortedValues {
   poolTokens: string[];
@@ -80,6 +80,12 @@ type EncodeExitParams = Pick<
 };
 
 export class ComposableStablePoolExit implements ExitConcern {
+  private vaultAddress: string;
+
+  constructor(networkConfig: BalancerNetworkConfig) {
+    this.vaultAddress = balancerVault(networkConfig.chainId);
+  }
+
   buildExitExactBPTIn = ({
     exiter,
     pool,
@@ -586,7 +592,7 @@ export class ComposableStablePoolExit implements ExitConcern {
       toInternalBalance,
     } = params;
 
-    const to = balancerVault;
+    const to = this.vaultAddress;
     const functionName = 'exitPool';
     const attributes: ExitPool = {
       poolId: poolId,

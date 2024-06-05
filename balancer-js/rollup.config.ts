@@ -48,7 +48,8 @@ export default [
           comments: false,
         },
         compress: {
-          pure_funcs: ['console.log', 'console.time', 'console.timeEnd'],
+          // TODO: Remove console.log from production
+          pure_funcs: ['console.time', 'console.timeEnd'],
         },
       }),
     ],

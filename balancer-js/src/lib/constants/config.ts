@@ -736,8 +736,8 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
         'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/artio/0.0.5/gn',
       // gaugesSubgraph:
       //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
-      // blockNumberSubgraph:
-      //   'https://api.thegraph.com/subgraphs/name/ianlapham/polygon-blocks',
+      blockNumberSubgraph:
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/blocks-artio/0.0.1/gn',
     },
     thirdParty: {
       coingecko: {

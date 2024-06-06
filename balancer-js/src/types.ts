@@ -1,36 +1,36 @@
-import { Network } from './lib/constants/network';
+import { GyroConfigRepository } from '@/modules/data/gyro-config/repository';
+import type {
+  Cacheable,
+  Findable,
+  LiquidityGauge,
+  PoolAttribute,
+  Searchable,
+  TokenAttribute,
+} from '@/modules/data/types';
+import type { AprBreakdown } from '@/modules/pools/apr/apr';
+import * as Queries from '@/modules/pools/queries/types';
+import { SubgraphPoolDataService } from '@/modules/sor/pool-data/subgraphPoolDataService';
+import type { PoolDataService, TokenPriceService } from '@balancer-labs/sor';
 import type { BigNumberish } from '@ethersproject/bignumber';
 import type { Contract } from '@ethersproject/contracts';
-import type { PoolDataService, TokenPriceService } from '@balancer-labs/sor';
+import { Network } from './lib/constants/network';
+import type { GraphQLArgs } from './lib/graphql';
+import type {
+  BaseFeeDistributor,
+  GaugeSharesRepository,
+  PoolGaugesRepository,
+  PoolJoinExitRepository,
+  PoolSharesRepository,
+  ProtocolFeesProvider,
+} from './modules/data';
 import type {
   ExitExactBPTInAttributes,
   ExitExactTokensOutAttributes,
   JoinPoolAttributes,
 } from './modules/pools/pool-types/concerns/types';
-import type {
-  Findable,
-  Searchable,
-  LiquidityGauge,
-  PoolAttribute,
-  TokenAttribute,
-  Cacheable,
-} from '@/modules/data/types';
-import type {
-  BaseFeeDistributor,
-  GaugeSharesRepository,
-  PoolGaugesRepository,
-  PoolSharesRepository,
-  ProtocolFeesProvider,
-  PoolJoinExitRepository,
-} from './modules/data';
-import type { GraphQLArgs } from './lib/graphql';
-import type { AprBreakdown } from '@/modules/pools/apr/apr';
-import { SubgraphPoolDataService } from '@/modules/sor/pool-data/subgraphPoolDataService';
-import * as Queries from '@/modules/pools/queries/types';
-import { GyroConfigRepository } from '@/modules/data/gyro-config/repository';
 
 export * from '@/modules/data/types';
-export { Network, AprBreakdown };
+export { AprBreakdown, Network };
 
 export type Address = string;
 
@@ -356,6 +356,7 @@ export interface Pool {
   isInRecoveryMode?: boolean;
   isPaused?: boolean;
   tokenRates?: string[];
+  quoteToken?: string;
 }
 
 export interface PriceRateProvider {

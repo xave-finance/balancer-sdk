@@ -12,6 +12,7 @@ interface SubgraphSubPoolToken extends SubgraphSubPoolTokenFragment {
 
 interface SubgraphSubPoolMeta {
   latestUSDPrice?: string | null;
+  latestFXPrice?: string | null;
   pool?: SubgraphSubPool | null;
 }
 
@@ -96,6 +97,7 @@ const mapSubPools = (metadata: SubgraphSubPoolMeta) => {
   return {
     pool: subPool,
     latestUSDPrice: metadata.latestUSDPrice || undefined,
+    latestFXPrice: metadata.latestFXPrice || undefined,
   };
 };
 

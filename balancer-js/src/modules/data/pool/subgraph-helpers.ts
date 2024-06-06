@@ -1,4 +1,4 @@
-import { Pool, PoolType, PoolToken, SubPool } from '@/.';
+import { Pool, PoolToken, PoolType, SubPool } from '@/.';
 import {
   SubgraphPool,
   SubgraphPoolTokenFragment,
@@ -59,6 +59,7 @@ export const mapType = (subgraphPool: SubgraphPool, chainId: number): Pool => {
     upperTarget: subgraphPool.upperTarget ?? '0',
     isInRecoveryMode: subgraphPool.isInRecoveryMode ?? false,
     isPaused: subgraphPool.isPaused ?? false,
+    quoteToken: subgraphPool.quoteToken ?? undefined,
   };
 };
 

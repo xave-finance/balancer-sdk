@@ -174,12 +174,14 @@ fragment TokenTree on Token {
       ...SubgraphSubPoolToken
       token {
         latestUSDPrice
+        latestFXPrice
         pool {
           ...SubgraphSubPool
           tokens(first: 100, orderBy: index) {
             ...SubgraphSubPoolToken
             token {
               latestUSDPrice
+              latestFXPrice
               pool {
                 ...SubgraphSubPool
               }

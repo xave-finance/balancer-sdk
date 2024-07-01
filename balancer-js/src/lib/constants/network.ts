@@ -12,5 +12,6 @@ export enum Network {
   AVALANCHE = 43114,
   SEPOLIA = 11155111,
   ARTIO = 80085, // Berachain Testnet
+  BARTIO = 80084, // Berachain Bartio Testnet
   KATLA = 167008, // Taiko Testnet
 }

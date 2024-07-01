@@ -576,24 +576,24 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     chainId: Network.BARTIO, //80084
     addresses: {
       contracts: {
-        vault: '0x6a7531477Da1ff5571EB71649d6EeE2db305375E',
+        vault: '0x6a7531477da1ff5571eb71649d6ee2db305375e',
         balancerMinter: '',
-        multicall: '0x6a7531477Da1ff5571EB71649d6EeE2db305375E',
-        poolDataQueries: '0xB32EcEb4f6B5e840Fe0e4ff127D7761D13a4C092',
-        balancerHelpers: '0x7dBE80Ef0519cA07489bb2d11Be0867C1785D83A',
+        multicall: '0x6a7531477da1ff5571eb71649d6eee2db305375e',
+        poolDataQueries: '0xb32eceb4f6b5e840fe0e4ff127d7761d13a4c092',
+        balancerHelpers: '0x7dbe80ef0519ca07489bb2d11be0867c1785d83a',
         balancerRelayer: '',
         protocolFeePercentagesProvider:
-          '0x579270F151D142eb8BdC081043a983307Aa15786',
-        weightedPoolFactory: '0xb4a183d38F754D83AA97810D80FC5BaCCd5c8441',
+          '0x579270f151d142eb8bdc081043a983307aa15786',
+        weightedPoolFactory: '0xb4a183d38f754d83aa97810d80fc5baccd5c8441',
         composableStablePoolFactory:
-          '0x0dCc3A237A4dD7bF01E9D3AF1185736eadC591E0',
-        aaveLinearPoolFactory: '0xAe0429F26ed25c8Ad22D2582315Cc99aa5de8fF6',
+          '0x0dcc3a237a4dd7bf01e9d3af1185736eadc591e0',
+        aaveLinearPoolFactory: '0xae0429f26ed25c8ad22d2582315cc99aa5de8ff6',
         erc4626LinearPoolFactory: '',
         yearnLinearPoolFactory: '',
       },
       tokens: {
-        bal: '0x2DaA47A2cE0BE7484C6328e20eE200e901fEf443',
-        wrappedNativeAsset: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8', // WBERA
+        bal: '0x2daa47a2ce0be7484c6328e20ee200e901fef443',
+        wrappedNativeAsset: '0x7507c1dc16935b82698e4c63f2746a2fcf994df8', // WBERA
       },
     },
     urls: {
@@ -614,7 +614,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     sorConnectingTokens: [
       {
         symbol: 'weth',
-        address: '0x6E1E9896e93F7A71ECB33d4386b49DeeD67a231A',
+        address: '0x6e1e9896e93f7a71ecb33d4386b49deed67a231a',
       },
     ],
   },

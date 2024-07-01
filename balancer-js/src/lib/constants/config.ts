@@ -593,7 +593,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
       },
       tokens: {
         bal: '0x2DaA47A2cE0BE7484C6328e20eE200e901fEf443',
-        wrappedNativeAsset: '0x6E1E9896e93F7A71ECB33d4386b49DeeD67a231A', // WBERA
+        wrappedNativeAsset: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8', // WBERA
       },
     },
     urls: {
@@ -601,8 +601,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
         'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/bartio/0.0.1/gn',
       // gaugesSubgraph:
       //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
-      blockNumberSubgraph:
-        '',
+      // blockNumberSubgraph: '',
     },
     thirdParty: {
       coingecko: {
@@ -615,7 +614,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     sorConnectingTokens: [
       {
         symbol: 'weth',
-        address: '0x8239FBb3e3D0C2cDFd7888D8aF7701240Ac4DcA4',
+        address: '0x6E1E9896e93F7A71ECB33d4386b49DeeD67a231A',
       },
     ],
   },

@@ -551,11 +551,11 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     urls: {
       subgraph:
-        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/artio/0.0.1/gn',
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/artio/0.0.8/gn',
       // gaugesSubgraph:
       //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
-      blockNumberSubgraph:
-        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/blocks-artio/0.0.1/gn',
+      // blockNumberSubgraph:
+      // 'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/blocks-artio/0.0.1/gn',
     },
     thirdParty: {
       coingecko: {
@@ -576,24 +576,17 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     chainId: Network.BARTIO, //80084
     addresses: {
       contracts: {
-        vault: '0x6a7531477Da1ff5571EB71649d6EeE2db305375E',
-        balancerMinter: '',
         multicall: '0x6a7531477Da1ff5571EB71649d6EeE2db305375E',
         poolDataQueries: '0xB32EcEb4f6B5e840Fe0e4ff127D7761D13a4C092',
-        balancerHelpers: '0x7dBE80Ef0519cA07489bb2d11Be0867C1785D83A',
-        balancerRelayer: '',
-        protocolFeePercentagesProvider:
-          '0x579270F151D142eb8BdC081043a983307Aa15786',
-        weightedPoolFactory: '0xb4a183d38F754D83AA97810D80FC5BaCCd5c8441',
-        composableStablePoolFactory:
-          '0x0dCc3A237A4dD7bF01E9D3AF1185736eadC591E0',
-        aaveLinearPoolFactory: '0xAe0429F26ed25c8Ad22D2582315Cc99aa5de8fF6',
-        erc4626LinearPoolFactory: '',
-        yearnLinearPoolFactory: '',
+        gaugeClaimHelper: AddressZero,
+        gyroConfigProxy: AddressZero,
+        ...addressesByNetwork[Network.BARTIO].contracts,
       },
       tokens: {
-        bal: '0x2DaA47A2cE0BE7484C6328e20eE200e901fEf443',
-        wrappedNativeAsset: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8', // WBERA
+        bal: addressesByNetwork[Network.BARTIO].contracts.bal,
+        wrappedNativeAsset: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8', // WBERA,
+        lbpRaisingTokens: [],
+        ...addressesByNetwork[Network.BARTIO].tokens,
       },
     },
     urls: {

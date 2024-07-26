@@ -655,6 +655,42 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
       },
     ],
   },
+  [Network.HEKLA]: {
+    chainId: Network.HEKLA, //167009
+    addresses: {
+      contracts: {
+        multicall: '0xca11bde05977b3631167028862be2a173976ca11',
+        poolDataQueries: '0x6ebb802ad48aa39c50a4bf175add81e966ce1d4d',
+        gaugeClaimHelper: AddressZero,
+        gyroConfigProxy: AddressZero,
+        ...addressesByNetwork[Network.HEKLA].contracts,
+      },
+      tokens: {
+        bal: addressesByNetwork[Network.HEKLA].contracts.bal,
+        wrappedNativeAsset: '0x0be4cb1416e178177e7ef19dd199860e755213e7', // WETH,
+        lbpRaisingTokens: [],
+        ...addressesByNetwork[Network.HEKLA].tokens,
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/hekla/0.0.2/gn',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: 'taiko-katla',
+        platformId: 'taiko-katla',
+      },
+    },
+    pools: {},
+    poolsToIgnore: [],
+    sorConnectingTokens: [
+      {
+        symbol: 'weth',
+        address: '0x0be4cb1416e178177e7ef19dd199860e755213e7',
+      },
+    ],
+  },
 };
 
 export const networkAddresses = (

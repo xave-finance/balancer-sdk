@@ -576,15 +576,15 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     chainId: Network.BARTIO, //80084
     addresses: {
       contracts: {
-        multicall: '0x6a7531477Da1ff5571EB71649d6EeE2db305375E',
-        poolDataQueries: '0xB32EcEb4f6B5e840Fe0e4ff127D7761D13a4C092',
+        multicall: '0x6a7531477da1ff5571eb71649d6eee2db305375e',
+        poolDataQueries: '0xb32eceb4f6b5e840fe0e4ff127d7761d13a4c092',
         gaugeClaimHelper: AddressZero,
         gyroConfigProxy: AddressZero,
         ...addressesByNetwork[Network.BARTIO].contracts,
       },
       tokens: {
         bal: addressesByNetwork[Network.BARTIO].contracts.bal,
-        wrappedNativeAsset: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8', // WBERA,
+        wrappedNativeAsset: '0x7507c1dc16935b82698e4c63f2746a2fcf994df8', // WBERA,
         lbpRaisingTokens: [],
         ...addressesByNetwork[Network.BARTIO].tokens,
       },
@@ -607,7 +607,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     sorConnectingTokens: [
       {
         symbol: 'weth',
-        address: '0x6E1E9896e93F7A71ECB33d4386b49DeeD67a231A',
+        address: '0x6e1e9896e93f7a71ecb33d4386b49deed67a231a',
       },
     ],
   },

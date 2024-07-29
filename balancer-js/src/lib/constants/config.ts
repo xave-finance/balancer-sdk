@@ -703,7 +703,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
       },
       tokens: {
         bal: addressesByNetwork[Network.TAIKO].contracts.bal,
-        wrappedNativeAsset: '0x0be4cb1416e178177e7ef19dd199860e755213e7', // WETH,
+        wrappedNativeAsset: '0xa51894664a773981c6c112c43ce576f315d5b1b6', // WETH,
         lbpRaisingTokens: [],
         ...addressesByNetwork[Network.TAIKO].tokens,
       },
@@ -723,7 +723,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     sorConnectingTokens: [
       {
         symbol: 'weth',
-        address: '0x0be4cb1416e178177e7ef19dd199860e755213e7',
+        address: '0xa51894664a773981c6c112c43ce576f315d5b1b6',
       },
     ],
   },

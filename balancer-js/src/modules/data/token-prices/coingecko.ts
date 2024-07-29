@@ -1,4 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { TOKENS } from '@/lib/constants/tokens';
+import { Debouncer, tokenAddressForPricing } from '@/lib/utils';
+import {
+  getCoingeckoApiBaseUrl,
+  getCoingeckoApiKeyHeaderName,
+} from '@/lib/utils/coingecko-api';
 import {
   CoingeckoConfig,
   Findable,
@@ -7,12 +13,6 @@ import {
   TokenPrices,
 } from '@/types';
 import axios, { AxiosError } from 'axios';
-import { TOKENS } from '@/lib/constants/tokens';
-import { Debouncer, tokenAddressForPricing } from '@/lib/utils';
-import {
-  getCoingeckoApiBaseUrl,
-  getCoingeckoApiKeyHeaderName,
-} from '@/lib/utils/coingecko-api';
 
 /**
  * Simple coingecko price source implementation. Configurable by network and token addresses.
@@ -176,6 +176,8 @@ export class CoingeckoPriceRepository implements Findable<Price> {
         return 'arbitrum-one';
       case 43114:
         return 'avalanche';
+      case 167000:
+        return 'taiko';
     }
 
     return '2';

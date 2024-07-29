@@ -15,4 +15,5 @@ export enum Network {
   BARTIO = 80084, // Berachain Bartio Testnet
   KATLA = 167008, // Taiko Testnet
   HEKLA = 167009, // Taiko Testnet 2
+  TAIKO = 167000, // Taiko Mainnet
 }

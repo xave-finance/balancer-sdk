@@ -678,8 +678,44 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     thirdParty: {
       coingecko: {
-        nativeAssetId: 'taiko-katla',
-        platformId: 'taiko-katla',
+        nativeAssetId: 'taiko-hekla',
+        platformId: 'taiko-hekla',
+      },
+    },
+    pools: {},
+    poolsToIgnore: [],
+    sorConnectingTokens: [
+      {
+        symbol: 'weth',
+        address: '0x0be4cb1416e178177e7ef19dd199860e755213e7',
+      },
+    ],
+  },
+  [Network.TAIKO]: {
+    chainId: Network.TAIKO, //167000
+    addresses: {
+      contracts: {
+        multicall: '0xca11bde05977b3631167028862be2a173976ca11',
+        poolDataQueries: '0x1176d13f6fc2afc3f4dcdb44cd3e014398be6ac7',
+        gaugeClaimHelper: AddressZero,
+        gyroConfigProxy: AddressZero,
+        ...addressesByNetwork[Network.TAIKO].contracts,
+      },
+      tokens: {
+        bal: addressesByNetwork[Network.TAIKO].contracts.bal,
+        wrappedNativeAsset: '0x0be4cb1416e178177e7ef19dd199860e755213e7', // WETH,
+        lbpRaisingTokens: [],
+        ...addressesByNetwork[Network.TAIKO].tokens,
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/taiko/0.0.1/gn',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: 'taiko',
+        platformId: 'taiko',
       },
     },
     pools: {},

@@ -576,8 +576,8 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     chainId: Network.BARTIO, //80084
     addresses: {
       contracts: {
-        multicall: '0x6a7531477Da1ff5571EB71649d6EeE2db305375E',
-        poolDataQueries: '0xB32EcEb4f6B5e840Fe0e4ff127D7761D13a4C092',
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        poolDataQueries: '0x8aA3dfBB7718B61710884F38fC374Cb778ce34Bd',
         gaugeClaimHelper: AddressZero,
         gyroConfigProxy: AddressZero,
         ...addressesByNetwork[Network.BARTIO].contracts,

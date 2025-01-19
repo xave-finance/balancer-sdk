@@ -591,7 +591,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     urls: {
       subgraph:
-        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/bartio/0.0.1/gn',
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/bartio/0.0.2/gn',
       // gaugesSubgraph:
       //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
       // blockNumberSubgraph: '',
@@ -602,6 +602,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
         platformId: 'berachain-bera',
       },
     },
+    averageBlockTime: 3,
     pools: {},
     poolsToIgnore: [],
     sorConnectingTokens: [

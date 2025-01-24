@@ -656,6 +656,43 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
       },
     ],
   },
+  [Network.BERACHAIN]: {
+    chainId: Network.BERACHAIN,
+    addresses: {
+      contracts: {
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        poolDataQueries: '0x5Aef74eF50e5f1fF00e030d0BD9E91a91635Dd9A',
+        gaugeClaimHelper: AddressZero,
+        gyroConfigProxy: AddressZero,
+        ...addressesByNetwork[Network.BERACHAIN].contracts,
+      },
+      tokens: {
+        bal: addressesByNetwork[Network.BERACHAIN].contracts.bal,
+        wrappedNativeAsset: '0x6969696969696969696969696969696969696969', // WBERA,
+        lbpRaisingTokens: [],
+        ...addressesByNetwork[Network.BERACHAIN].tokens,
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/bartio/0.0.2/gn',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: 'berachain-bera',
+        platformId: 'berachain-bera',
+      },
+    },
+    averageBlockTime: 3,
+    pools: {},
+    poolsToIgnore: [],
+    sorConnectingTokens: [
+      {
+        symbol: 'wbera',
+        address: '0x6969696969696969696969696969696969696969',
+      },
+    ],
+  },
 };
 
 export const networkAddresses = (

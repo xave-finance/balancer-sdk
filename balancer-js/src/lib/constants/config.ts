@@ -675,7 +675,7 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     urls: {
       subgraph:
-        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/bartio/0.0.2/gn',
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/berachain/prod/gn',
     },
     thirdParty: {
       coingecko: {

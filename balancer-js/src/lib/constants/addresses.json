@@ -918,7 +918,7 @@
       "WBERA": "0x7507c1dc16935B82698e4C63f2746A2fCf994dF8"
     }
   },
-  "80001": {
+  "80094": {
     "contracts": {
       "aaveLinearPoolFactory": "0x695302d7f68a62f1421f75e622ef1d1969373eb3",
       "authorizer": "0xb6c88672b57eefc2707eb49d50016fca6e54cb0c",

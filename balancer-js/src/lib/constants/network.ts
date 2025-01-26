@@ -14,5 +14,5 @@ export enum Network {
   ARTIO = 80085, // Berachain Testnet
   BARTIO = 80084, // Berachain Bartio Testnet
   KATLA = 167008, // Taiko Testnet
-  BERACHAIN = 80001, // Berachain Mainnet
+  BERACHAIN = 80094, // Berachain Mainnet
 }

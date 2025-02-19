@@ -1,6 +1,6 @@
 {
   "name": "@xclabs/balancer-sdk",
-  "version": "1.1.6-beta.21-b",
+  "version": "1.1.6-beta.22-a",
   "description": "JavaScript SDK for interacting with the Balancer Protocol V2",
   "license": "GPL-3.0-only",
   "homepage": "https://github.com/xave-finance/balancer-sdk#readme",

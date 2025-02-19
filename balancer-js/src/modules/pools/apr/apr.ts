@@ -5,17 +5,18 @@ import { BaseFeeDistributor } from '@/modules/data';
 import * as emissions from '@/modules/data/bal/emissions';
 import { GyroConfigRepository } from '@/modules/data/gyro-config/repository';
 import { Liquidity } from '@/modules/liquidity/liquidity.module';
-import type {
-  BalancerNetworkConfig,
-  Findable,
-  LiquidityGauge,
-  Network,
-  Pool,
-  PoolAttribute,
-  PoolToken,
-  Price,
-  Token,
-  TokenAttribute,
+import {
+  PoolType,
+  type BalancerNetworkConfig,
+  type Findable,
+  type LiquidityGauge,
+  type Network,
+  type Pool,
+  type PoolAttribute,
+  type PoolToken,
+  type Price,
+  type Token,
+  type TokenAttribute,
 } from '@/types';
 import { BigNumber } from '@ethersproject/bignumber';
 import { formatUnits } from '@ethersproject/units';
@@ -75,13 +76,30 @@ export class PoolApr {
    */
   async swapFees(pool: Pool): Promise<number> {
     // 365 * dailyFees * (1 - protocolFees) / totalLiquidity
-    const last24hFees = await this.last24hFees(pool);
+    let last24hFees = await this.last24hFees(pool);
     const totalLiquidity = await this.totalLiquidity(pool);
-    // TODO: what to do when we are missing last24hFees or totalLiquidity?
-    // eg: stable phantom returns 0
-    if (!last24hFees || !totalLiquidity) {
+
+    if (
+      pool.poolType === PoolType.FX &&
+      !last24hFees &&
+      totalLiquidity &&
+      pool.createTime &&
+      pool.totalSwapFee
+    ) {
+      // compute last24hFees based on totalSwapFee and pool age
+      const MS_PER_DAY = 1000 * 60 * 60 * 24;
+      const poolAgeInDays = Math.max(
+        1, // Use minimum of 1 day to avoid division by zero
+        (Date.now() - pool.createTime * 1000) / MS_PER_DAY
+      );
+      // average daily fees if last24hFees is not available
+      last24hFees = parseFloat(pool.totalSwapFee) / poolAgeInDays;
+    } else if (!last24hFees || !totalLiquidity) {
+      // TODO: what to do when we are missing last24hFees or totalLiquidity?
+      // eg: stable phantom returns 0
       return 0;
     }
+
     const dailyFees =
       last24hFees * (1 - (await this.protocolSwapFeePercentage(pool)));
     const feesDailyBsp = 10000 * (dailyFees / parseFloat(totalLiquidity));

@@ -608,6 +608,46 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     sorConnectingTokens: [
       {
         symbol: 'weth',
+        address: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8',
+      },
+    ],
+  },
+  [Network.BEPOLIA]: {
+    chainId: Network.BEPOLIA, //80069
+    addresses: {
+      contracts: {
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        poolDataQueries: '0xCFF8EF10F75A43fE539a262e0eCa56688F00D7F1',
+        gaugeClaimHelper: AddressZero,
+        gyroConfigProxy: AddressZero,
+        ...addressesByNetwork[Network.BEPOLIA].contracts,
+      },
+      tokens: {
+        bal: addressesByNetwork[Network.BEPOLIA].contracts.bal,
+        wrappedNativeAsset: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8', // WBERA,
+        lbpRaisingTokens: [],
+        ...addressesByNetwork[Network.BEPOLIA].tokens,
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.goldsky.com/api/public/project_cluukfpdrw61a01xag6yihcuy/subgraphs/bepolia/0.0.1/gn',
+      // gaugesSubgraph:
+      //   'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-polygon',
+      // blockNumberSubgraph: '',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: 'berachain-bepoloia',
+        platformId: 'berachain-bepoloia',
+      },
+    },
+    averageBlockTime: 3,
+    pools: {},
+    poolsToIgnore: [],
+    sorConnectingTokens: [
+      {
+        symbol: 'weth',
         address: '0x6E1E9896e93F7A71ECB33d4386b49DeeD67a231A',
       },
     ],

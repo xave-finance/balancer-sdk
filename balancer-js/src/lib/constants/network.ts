@@ -13,6 +13,7 @@ export enum Network {
   SEPOLIA = 11155111,
   ARTIO = 80085, // Berachain Testnet
   BARTIO = 80084, // Berachain Bartio Testnet
+  BEPOLIA = 80069, // Berachain Sepolia Testnet
   KATLA = 167008, // Taiko Testnet
   BERACHAIN = 80094, // Berachain Mainnet
 }

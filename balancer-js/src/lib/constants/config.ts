@@ -679,8 +679,8 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
     },
     thirdParty: {
       coingecko: {
-        nativeAssetId: 'berachain-bera',
-        platformId: 'berachain-bera',
+        nativeAssetId: 'berachain',
+        platformId: 'berachain',
       },
     },
     averageBlockTime: 3,

@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import {
-  Price,
-  Findable,
-  TokenPrices,
-  Network,
-  HistoricalPrices,
-  CoingeckoConfig,
-} from '@/types';
-import axios, { AxiosError } from 'axios';
 import { tokenAddressForPricing } from '@/lib/utils';
 import {
   getCoingeckoApiBaseUrl,
   getCoingeckoApiKeyHeaderName,
 } from '@/lib/utils/coingecko-api';
+import {
+  CoingeckoConfig,
+  Findable,
+  HistoricalPrices,
+  Network,
+  Price,
+  TokenPrices,
+} from '@/types';
+import axios, { AxiosError } from 'axios';
 
 const HOUR = 60 * 60;
 
@@ -96,6 +96,8 @@ export class CoingeckoHistoricalPriceRepository implements Findable<Price> {
         return 'arbitrum-one';
       case 100:
         return 'xdai';
+      case 80094:
+        return 'berachain';
     }
 
     return '2';

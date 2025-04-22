@@ -46,6 +46,7 @@ export interface BalancerSdkConfig {
   tenderly?: BalancerTenderlyConfig;
   enableLogging?: boolean;
   coingecko?: CoingeckoConfig;
+  burrbearApiUrl?: string;
 }
 
 export interface BalancerTenderlyConfig {

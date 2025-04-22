@@ -31,7 +31,7 @@ import { PoolGaugesRepository } from './pool-gauges/repository';
 import { GaugeSharesRepository } from './gauge-shares/repository';
 import { BlockNumberRepository } from './block-number';
 import {
-  CoingeckoPriceRepository,
+  BurrbearPriceRepository,
   AaveRates,
   TokenPriceProvider,
   HistoricalPriceProvider,
@@ -45,9 +45,6 @@ import { TokenYieldsRepository } from './token-yields/repository';
 import { ProtocolFeesProvider } from './protocol-fees/provider';
 import { Provider } from '@ethersproject/providers';
 
-// initialCoingeckoList are used to get the initial token list for coingecko
-// TODO: we might want to replace that with what frontend is using
-import initialCoingeckoList from '@/modules/data/token-prices/initial-list.json';
 import { SubgraphPriceRepository } from './token-prices/subgraph';
 import { createSubgraphClient } from '../subgraph/subgraph';
 import { Contracts } from '../contracts/contracts.module';
@@ -77,7 +74,8 @@ export class Data implements BalancerDataRepositories {
     provider: Provider,
     contracts: Contracts,
     subgraphQuery?: GraphQLQuery,
-    coingecko?: CoingeckoConfig
+    coingecko?: CoingeckoConfig,
+    burrbearApiUrl?: string
   ) {
     this.pools = new PoolsSubgraphRepository({
       url: networkConfig.urls.subgraph,
@@ -163,14 +161,9 @@ export class Data implements BalancerDataRepositories {
       });
     }
 
-    const tokenAddresses = initialCoingeckoList
-      .filter((t) => t.chainId == networkConfig.chainId)
-      .map((t) => t.address);
-
-    const coingeckoRepository = new CoingeckoPriceRepository(
-      tokenAddresses,
-      networkConfig.chainId,
-      coingecko
+    const burrbearRepository = new BurrbearPriceRepository(
+      burrbearApiUrl || '',
+      networkConfig.chainId
     );
 
     const subgraphPriceRepository = new SubgraphPriceRepository(
@@ -184,7 +177,7 @@ export class Data implements BalancerDataRepositories {
     );
 
     this.tokenPrices = new TokenPriceProvider(
-      coingeckoRepository,
+      burrbearRepository,
       subgraphPriceRepository,
       aaveRates
     );

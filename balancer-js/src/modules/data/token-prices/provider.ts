@@ -4,7 +4,7 @@ import { Logger } from '@/lib/utils/logger';
 
 export class TokenPriceProvider implements Findable<Price> {
   constructor(
-    private coingeckoRepository: Findable<Price>,
+    private burrbearRepository: Findable<Price>,
     private subgraphRepository: Findable<Price>,
     private aaveRates: IAaveRates
   ) {}
@@ -12,7 +12,7 @@ export class TokenPriceProvider implements Findable<Price> {
   async find(address: string): Promise<Price | undefined> {
     let price;
     try {
-      price = await this.coingeckoRepository.find(address);
+      price = await this.burrbearRepository.find(address);
       if (!price?.usd) {
         throw new Error('Price not found');
       }

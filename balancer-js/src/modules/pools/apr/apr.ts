@@ -35,7 +35,14 @@ export interface AprBreakdown {
   };
   rewardAprs: {
     total: number;
+    min?: number;
+    max?: number;
     breakdown: { [address: string]: number };
+    pointsMetadata?: {
+      name: string;
+      label: string;
+      iconUrl: string;
+    }[];
   };
   protocolApr: number;
   min: number;
